@@ -1,29 +1,12 @@
-#define SDL_MAIN_HANDLED
 #include "Engine.h"
+
 #include <SDL3/SDL.h>
 #include <iostream>
-void HogEngine::Init()
+void HogEngine::Init(const char* title, int w, int h)
 {
-    SDL_Window* window;                    // Declare a pointer
+    std::cout<<windowManager.Init(title, w, h);
+    
     bool done = false;
-
-    SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
-
-    // Create an application window with the following settings:
-    window = SDL_CreateWindow(
-        "An SDL3 window",                  // window title
-        640,                               // width, in pixels
-        480,                               // height, in pixels
-        SDL_WINDOW_OPENGL                  // flags - see below
-    );
-
-    // Check that the window was successfully created
-    if (window == NULL) {
-        // In the case that the window could not be made...
-        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
-        return;
-    }
-
     while (!done) {
         SDL_Event event;
 
@@ -36,9 +19,12 @@ void HogEngine::Init()
         // Do game logic, present a frame, etc.
     }
 
-    // Close and destroy the window
-    SDL_DestroyWindow(window);
 
+}
+
+void HogEngine::Quit()
+{   
+    windowManager.Quit();
     // Clean up
     SDL_Quit();
 }

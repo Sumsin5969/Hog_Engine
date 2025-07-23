@@ -1,17 +1,11 @@
 #pragma once
+#include "WindowManager.h"
 
 class HogEngine
 {
 public:
-	void Load();
-	void Init();
-	void Update();
+	void Init(const char* title, int width, int height);
 	void Quit();
 private:
-	WindowManager* windowManager;
-	InputManager* inputManager;
-	RenderManager* renderManager;
-	SoundManager* soundManager;
-	ResourceManager* resourceManager;
-	HogEngine* hogEngine;
+	WindowManager windowManager;
 };

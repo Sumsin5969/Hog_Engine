@@ -18,9 +18,15 @@
     <ClInclude Include="Extern\Engine.h">
       <Filter>헤더 파일</Filter>
     </ClInclude>
+    <ClInclude Include="Extern\WindowManager.h">
+      <Filter>헤더 파일</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Engine.cpp">
+      <Filter>소스 파일</Filter>
+    </ClCompile>
+    <ClCompile Include="lib\WindowManager.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>
