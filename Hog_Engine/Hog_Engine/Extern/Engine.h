@@ -1,11 +1,11 @@
 #pragma once
 #include "WindowManager.h"
+#include "InputManager.h"
+#include "StateManager.h"
+#include "RenderManager.h"
+#include <iostream>
 
-class HogEngine
-{
-public:
-	void Init(const char* title, int width, int height);
-	void Quit();
-private:
-	WindowManager windowManager;
-};
+void HERun(const char* title, int width, int height, const int targetFPS, int VSync, std::unique_ptr<GameState> TargetState);
+void HESetNextGameState(std::unique_ptr<GameState> TargetState);
+float GetDT();
+void HEShutDown();

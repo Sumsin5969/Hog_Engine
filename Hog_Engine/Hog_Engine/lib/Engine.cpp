@@ -1,49 +1,99 @@
-#define SDL_MAIN_HANDLED
 #include "Engine.h"
 #include <SDL3/SDL.h>
-
 #include <iostream>
-void HogEngine::Init(int w, int h)
+
+class HogEngine
 {
-    bool done = false;
+public:
+	HogEngine() :lastFrameTime(0), frameStart(0), frameTime(0), frameDelay(0)
+	{
+		inputManager = new InputManager();
+		windowManager = new WindowManager();
+		stateManager = new StateManager();
+		renderManager = new RenderManager();
+	};
+	void Update();
+	void Destroy();
+	void FrameStart();
+	void FrameEnd();
+	int lastFrameTime;
+	int frameStart;
+	int frameTime;
+	int frameDelay;
+	InputManager* inputManager;
+	WindowManager* windowManager;
+	StateManager* stateManager;
+	RenderManager* renderManager;
+	bool shouldQuit{ false };
+};
 
-    SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
+HogEngine Engine;
 
-    // Create an application window with the following settings:
-    window = SDL_CreateWindow(
-        "An SDL3 window",                  // window title
-        640,                               // width, in pixels
-        480,                               // height, in pixels
-        SDL_WINDOW_OPENGL                  // flags - see below
-    );
-
-    // Check that the window was successfully created
-    if (window == NULL) {
-        // In the case that the window could not be made...
-        SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
-        return;
-    }
-
-    while (!done) {
-        SDL_Event event;
-
-        while (SDL_PollEvent(&event)) {
-            if (event.type == SDL_EVENT_QUIT) {
-                done = true;
-            }
-        }
-
-        // Do game logic, present a frame, etc.
-    }
-
-
+void HogEngine::FrameStart()
+{
+	frameStart = SDL_GetTicks();
 }
 
-void HogEngine::Quit()
-{   
-    // Close and destroy the window
-    SDL_DestroyWindow(window);
+void HogEngine::FrameEnd()
+{
+	frameTime = SDL_GetTicks() - frameStart;
+	if (frameDelay > frameTime)
+		SDL_Delay(frameDelay - frameTime);
+}
 
-    // Clean up
-    SDL_Quit();
+void HogEngine::Update()
+{
+	while (!shouldQuit)
+	{
+		FrameStart();
+
+		inputManager->Update();
+		stateManager->Update();
+		renderManager->Update();
+		
+		if (inputManager->QuitRequested())
+			shouldQuit = true;
+
+		FrameEnd();
+	}
+	Destroy();
+}
+
+void HogEngine::Destroy()
+{
+	inputManager->Destroy();
+	delete inputManager;
+	renderManager->Destroy();
+	delete renderManager;
+	windowManager->Destroy();
+	delete	windowManager;
+	stateManager->Destroy();
+	delete	stateManager;
+}
+
+void HERun(const char* title, int width, int height, const int targetFPS, int VSync, std::unique_ptr<GameState> TargetState)
+{
+	Engine.inputManager->Init();
+	Engine.windowManager->Init(title, width, height, VSync);
+	Engine.renderManager->Init(Engine.windowManager->GetCurrentWindow());
+	Engine.stateManager->SetNextState(std::move(TargetState));
+	Engine.frameDelay = 1000/targetFPS;
+	Engine.Update();
+}
+
+void HESetNextGameState(std::unique_ptr<GameState> TargetState)
+{
+	Engine.stateManager->SetNextState(std::move(TargetState));
+}
+
+float GetDT()
+{
+	float dt = (SDL_GetTicks() - Engine.lastFrameTime) / 1000.f;
+	Engine.lastFrameTime = SDL_GetTicks();
+	return dt;
+}
+
+void HEShutDown()
+{
+	Engine.shouldQuit = true;
 }

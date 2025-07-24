@@ -110,7 +110,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)Extern;$(SolutionDir)ThirdParty\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Extern;$(ProjectDir)lib;$(SolutionDir)ThirdParty\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -137,14 +137,21 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)ThirdParty\lib\x64</AdditionalLibraryDirectories>
+      <AdditionalDependencies>SDL3.lib</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Extern\Engine.h" />
+    <ClInclude Include="Extern\InputManager.h" />
+    <ClInclude Include="Extern\RenderManager.h" />
     <ClInclude Include="Extern\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Engine.cpp" />
+    <ClInclude Include="Extern\StateManager.h" />
+    <ClCompile Include="lib\Engine.cpp" />
+    <ClCompile Include="lib\InputManager.cpp" />
+    <ClCompile Include="lib\RenderManager.cpp" />
+    <ClCompile Include="lib\StateManager.cpp" />
     <ClCompile Include="lib\WindowManager.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
