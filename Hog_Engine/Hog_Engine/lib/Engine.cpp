@@ -1,7 +1,7 @@
 #include "Engine.h"
 #include <SDL3/SDL.h>
 #include <iostream>
-
+#include <glad/gl.h>
 class HogEngine
 {
 public:
@@ -16,10 +16,10 @@ public:
 	void Destroy();
 	void FrameStart();
 	void FrameEnd();
-	int lastFrameTime;
-	int frameStart;
-	int frameTime;
-	int frameDelay;
+	unsigned long long lastFrameTime;
+	unsigned long long frameStart;
+	unsigned long long frameTime;
+	unsigned long long frameDelay;
 	InputManager* inputManager;
 	WindowManager* windowManager;
 	StateManager* stateManager;
@@ -38,7 +38,7 @@ void HogEngine::FrameEnd()
 {
 	frameTime = SDL_GetTicks() - frameStart;
 	if (frameDelay > frameTime)
-		SDL_Delay(frameDelay - frameTime);
+		SDL_Delay(static_cast<unsigned long>(frameDelay) - static_cast<unsigned long>(frameTime));
 }
 
 void HogEngine::Update()
@@ -46,7 +46,6 @@ void HogEngine::Update()
 	while (!shouldQuit)
 	{
 		FrameStart();
-
 		inputManager->Update();
 		stateManager->Update();
 		renderManager->Update();
@@ -74,8 +73,8 @@ void HogEngine::Destroy()
 void HERun(const char* title, int width, int height, const int targetFPS, int VSync, std::unique_ptr<GameState> TargetState)
 {
 	Engine.inputManager->Init();
-	Engine.windowManager->Init(title, width, height, VSync);
-	Engine.renderManager->Init(Engine.windowManager->GetCurrentWindow());
+	Engine.windowManager->Init(title, width, height);
+	Engine.renderManager->Init(Engine.windowManager->GetCurrentWindow(), width, height, VSync);
 	Engine.stateManager->SetNextState(std::move(TargetState));
 	Engine.frameDelay = 1000/targetFPS;
 	Engine.Update();

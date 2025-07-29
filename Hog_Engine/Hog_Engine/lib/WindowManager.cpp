@@ -5,7 +5,7 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_log.h>
 
-bool WindowManager::Init(const char* title, int w, int h, int vsync)
+bool WindowManager::Init(const char* title, int w, int h)
 {
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
 
@@ -23,8 +23,6 @@ bool WindowManager::Init(const char* title, int w, int h, int vsync)
         SDL_LogError(SDL_LOG_CATEGORY_ERROR, "Could not create window: %s\n", SDL_GetError());
         return false;
     }
-
-    SDL_GL_SetSwapInterval(vsync);
 
     return window != nullptr;
 }

@@ -10,5 +10,5 @@ public:
 	void Destroy() override;
 private:
 	float StageTime = 0;
-	float StageLimit = 2;
+	float StageLimit = 5;
 };

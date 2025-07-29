@@ -143,13 +143,16 @@
   <ItemGroup>
     <ClInclude Include="Extern\Engine.h" />
     <ClInclude Include="Extern\InputManager.h" />
+    <ClInclude Include="Extern\ObjectManager.h" />
     <ClInclude Include="Extern\RenderManager.h" />
     <ClInclude Include="Extern\WindowManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Extern\StateManager.h" />
+    <ClCompile Include="..\ThirdParty\lib\x64\glad.c" />
     <ClCompile Include="lib\Engine.cpp" />
     <ClCompile Include="lib\InputManager.cpp" />
+    <ClCompile Include="lib\ObjectManager.cpp" />
     <ClCompile Include="lib\RenderManager.cpp" />
     <ClCompile Include="lib\StateManager.cpp" />
     <ClCompile Include="lib\WindowManager.cpp" />
