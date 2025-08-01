@@ -1,10 +1,10 @@
 #include "MainMenu.h"
 #include <iostream>
 #include <iomanip>
-
+#include <string>
 void MainMenu::Load()
 {
-	
+
 }
 
 void MainMenu::Init()
@@ -14,12 +14,11 @@ void MainMenu::Init()
 
 void MainMenu::Update()
 {
-	//std::cout << StageTime << std::endl;
-	//StageTime += GetDT();
-	//if (StageTime > StageLimit)
-	//{
-	//	HEShutDown();
-	//}
+	stageTime += GetDT();
+	if (stageTime > 1.f)
+	{
+		HESetWindowTitle(std::to_string(static_cast<int>(GetFPS())).c_str());
+	}
 }
 
 void MainMenu::Destroy()

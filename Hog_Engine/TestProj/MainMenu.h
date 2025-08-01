@@ -9,6 +9,6 @@ public:
 	void Update() override;
 	void Destroy() override;
 private:
-	float StageTime = 0;
-	float StageLimit = 5;
+	float stageTime = 0;
+	float stageLimit = 5;
 };

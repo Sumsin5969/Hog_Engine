@@ -146,6 +146,7 @@
     <ClInclude Include="Extern\ObjectManager.h" />
     <ClInclude Include="Extern\RenderManager.h" />
     <ClInclude Include="Extern\WindowManager.h" />
+    <ClInclude Include="lib\EngineInternal.h" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Extern\StateManager.h" />

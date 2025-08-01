@@ -5,10 +5,13 @@
 #include <SDL3/SDL_main.h>
 #include <SDL3/SDL_log.h>
 
-bool WindowManager::Init(const char* title, int w, int h)
+bool WindowManager::Init(const char* title, int w, int h, int vSync)
 {
     SDL_Init(SDL_INIT_VIDEO);              // Initialize SDL3
-
+    SDL_GL_SetSwapInterval(vSync);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 4);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 6);
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
     // Create an application window with the following settings:
     window = SDL_CreateWindow(
         title,                  // window title
