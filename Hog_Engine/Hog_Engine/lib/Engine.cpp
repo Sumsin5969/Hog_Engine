@@ -15,6 +15,8 @@ void HERun(const char* title, int width, int height, const int targetFPS, int vS
 	Engine.renderManager->Init(Engine.windowManager->GetCurrentWindow(), width, height);
 	Engine.stateManager->SetNextState(std::move(TargetState));
 	Engine.targetFrameTime = 1.f / targetFPS;
+
+	Engine.renderManager->LoadTexture("Assets/yujin.png");
 	Engine.Update();
 }
 
@@ -35,7 +37,6 @@ void HogEngine::FrameEnd()
 	dt = frameDuration.count();
 
 	lastFrame = frameEnd;
-
 	static int frames = 0;
 	static float accum = 0.0f;
 	frames++;
@@ -51,7 +52,7 @@ void HogEngine::Update()
 {
 	while (!shouldQuit)
 	{
-		renderManager->ClearBackground();
+		renderManager->ClearBackground(1,1,1,1);
 		inputManager->Update();
 		stateManager->Update();
 		renderManager->Update();
@@ -72,9 +73,10 @@ void HogEngine::Destroy()
 	renderManager->Destroy();
 	delete renderManager;
 	windowManager->Destroy();
-	delete	windowManager;
+	delete windowManager;
 	stateManager->Destroy();
-	delete	stateManager;
+	delete stateManager;
+	delete objectManager;
 }
 
 void HESetNextGameState(std::unique_ptr<GameState> TargetState)

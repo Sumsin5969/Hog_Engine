@@ -1,6 +1,8 @@
 #pragma once
 #include "Engine.h"
-
+#include <glm/glm.hpp>
+#include "glm/ext/matrix_clip_space.hpp"
+#include <glm/gtc/matrix_transform.hpp>
 using clock_type = std::chrono::high_resolution_clock;
 using time_point = std::chrono::time_point<clock_type>;
 
@@ -36,16 +38,18 @@ extern HogEngine Engine;
 
 union HEVec2
 {
-	struct { float x, y; };
-	struct { float r, g; };
+	glm::vec2 pos;
+	glm::vec2 size;
 };
 union HEVec3
 {
-	struct { float x, y, z; };
-	struct { float r, g, b; };
+	glm::vec3 pos;
+	glm::vec3 size;
+	glm::vec3 color;
 };
 union HEVec4
 {
-	struct { float x, y, z, w; };
-	struct { float r, g, b, a; };
+	glm::vec4 pos;
+	glm::vec4 size;
+	glm::vec4 color;
 };

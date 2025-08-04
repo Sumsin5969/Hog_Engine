@@ -9,7 +9,7 @@ void MainMenu::Load()
 
 void MainMenu::Init()
 {
-
+	
 }
 
 void MainMenu::Update()
@@ -17,7 +17,7 @@ void MainMenu::Update()
 	stageTime += GetDT();
 	if (stageTime > 1.f)
 	{
-		HESetWindowTitle(std::to_string(static_cast<int>(GetFPS())).c_str());
+		HESetWindowTitle(("FPS: " + std::to_string(static_cast<int>(GetFPS()))).c_str());
 	}
 }
 
