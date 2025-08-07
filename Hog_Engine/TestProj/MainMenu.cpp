@@ -19,6 +19,10 @@ void MainMenu::Update()
 	{
 		HESetWindowTitle(("FPS: " + std::to_string(static_cast<int>(GetFPS()))).c_str());
 	}
+	if (stageTime > stageLimit)
+	{
+		HEShutDown();
+	}
 }
 
 void MainMenu::Destroy()

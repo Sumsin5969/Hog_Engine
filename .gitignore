@@ -415,3 +415,6 @@ FodyWeavers.xsd
 *.msix
 *.msm
 *.msp
+
+
+!/Hog_Engine/x64/*

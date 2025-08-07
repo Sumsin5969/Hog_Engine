@@ -175,7 +175,7 @@ void RenderManager::Update()
 
 void RenderManager::Draw()
 {
-	GLfloat x, y, w, h;
+	static GLfloat x, y, w, h;
 	x = 100;
 	y = 0;
 	w = 1100;
@@ -184,8 +184,8 @@ void RenderManager::Draw()
 	
 	glm::mat4 scale = glm::scale(glm::mat4(1.0f), glm::vec3(w, h, 1));
 	glm::mat4 translate = glm::translate(glm::mat4(1.0f), glm::vec3(x, y, 1));
-	glm::mat4 orthoMat = glm::ortho(-screenWidth/2.f, screenWidth/2.f, -screenHeight/2.f, screenHeight/2.f);
-	model_to_ndc =  orthoMat * translate * scale;
+	glm::mat4 ortho = glm::ortho(-screenWidth/2.f, screenWidth/2.f, -screenHeight/2.f, screenHeight/2.f);
+	model_to_ndc =  ortho * translate * scale;
 	GLint trans = glGetUniformLocation(shaderProgram, "uModel_to_NDC");
 	GLint color = glGetUniformLocation(shaderProgram, "uColor");
 	glm::vec4 clr = {1,1,1,1};
