@@ -93,7 +93,7 @@ void RenderManager::Init(SDL_Window* window, float w, float h)
 		std::cerr << "Failed to init GLAD!!\n";
 		return;
 	}
-	std::cout << "OpenGL Versexion: " << glGetString(GL_VERSION) << std::endl;
+	std::cout << "OpenGL Version: " << glGetString(GL_VERSION) << std::endl;
 
 	glViewport(0, 0, w, h);
 
@@ -188,7 +188,7 @@ void RenderManager::Draw()
 	model_to_ndc =  orthoMat * translate * scale;
 	GLint trans = glGetUniformLocation(shaderProgram, "uModel_to_NDC");
 	GLint color = glGetUniformLocation(shaderProgram, "uColor");
-	glm::vec4 clr = {1,1,1,0.2};
+	glm::vec4 clr = {1,1,1,1};
 
 	glEnable(GL_BLEND);
 	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
