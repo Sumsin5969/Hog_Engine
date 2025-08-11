@@ -3,7 +3,6 @@
 #include <SDL3/SDL.h>
 #include <SDL3/SDL_video.h>
 #include <glad/gl.h>
-#include <fstream>
 #include <sstream>
 #include "EngineInternal.h"
 #include <vector>
@@ -21,7 +20,7 @@ struct RenderManager::Impl
 struct Vertex
 {
 	glm::vec2 pos;
-	glm::vec2 tex;
+	glm::vec2 uv;
 };
 GLuint CompileShader(GLenum type, const char* source)
 {
@@ -40,27 +39,46 @@ GLuint CompileShader(GLenum type, const char* source)
 	return shader;
 }
 
-std::string LoadShaderSource(const char* path)
+const char* CreateVS()
 {
-	std::ifstream file(path);
-	if (!file.is_open())
-	{
-		std::cerr << "Failed to open shader file: " << path << std::endl;
-		return "";
-	}
+	return "#version 460 core\n"
 
-	std::stringstream buffer;
-	buffer << file.rdbuf();
-	return buffer.str();
+		"layout(location = 0) in vec2 aPos;\n"
+		"layout(location = 2) in vec2 aTexCoord;\n"
+
+		"uniform mat4 uModel_to_NDC;\n"
+		"out vec2 TexCoord;\n"
+
+		"void main()\n"
+		"{\n"
+		"    gl_Position = uModel_to_NDC * vec4(aPos, 0.0, 1.0);\n"
+		"    TexCoord = aTexCoord;\n"
+		"}\n";
+}
+
+const char* CreateFS()
+{
+	return "#version 460 core\n"
+
+		"out vec4 FragColor;\n"
+
+		"in vec2 TexCoord;\n"
+		"uniform vec4 uColor;\n"
+		"uniform sampler2D uTexture;\n"
+
+		"void main()\n"
+		"{\n"
+		"    FragColor = texture(uTexture, TexCoord) * uColor;\n"
+		"}\n";
 }
 
 GLuint CreateProgram()
 {
-	std::string vsSource = LoadShaderSource("shaders/myShader.vert");
-	std::string fsSource = LoadShaderSource("shaders/myShader.frag");
+	std::string vsSource = CreateVS();
+	std::string fsSource = CreateFS();
 
-	GLuint vs = CompileShader(GL_VERTEX_SHADER, vsSource.c_str());
-	GLuint fs = CompileShader(GL_FRAGMENT_SHADER, fsSource.c_str());
+	GLuint vs = CompileShader(GL_VERTEX_SHADER, CreateVS());
+	GLuint fs = CompileShader(GL_FRAGMENT_SHADER, CreateFS());
 
 	GLuint program = glCreateProgram();
 	glAttachShader(program, vs);
@@ -158,19 +176,14 @@ void RenderManager::LoadTexture(const char* path)
 	glVertexArrayAttribBinding(vao, 0, 0);
 
 	glEnableVertexArrayAttrib(vao, 2);
-	glVertexArrayAttribFormat(vao, 2, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, tex));
+	glVertexArrayAttribFormat(vao, 2, 2, GL_FLOAT, GL_FALSE, offsetof(Vertex, uv));
 	glVertexArrayAttribBinding(vao, 2, 0);
 
 	GLint textureLocation = glGetUniformLocation(shaderProgram, "uTexture");
 	glUniform1i(textureLocation, 0);
 
-	glBindTextureUnit(0, texture);
+	glBindTextureUnit(0+, texture);
 	glGenerateTextureMipmap(texture);
-}
-
-void RenderManager::Update()
-{
-	
 }
 
 void RenderManager::Draw()

@@ -8,6 +8,12 @@ public:
 private:
 
 };
+
+struct Texture
+{
+	
+};
+
 void ObjectManager::AddNewActor(Actor* actor)
 {
 	actors.push_back(actor);

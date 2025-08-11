@@ -17,9 +17,12 @@ void HERun(const char* title, int width, int height, const int targetFPS, int vS
 	Engine.targetFrameTime = 1.f / targetFPS;
 
 	Engine.renderManager->LoadTexture("Assets/yujin.png");
-	Engine.Update();
 }
 
+void HEUpdate()
+{
+	Engine.Update();
+}
 
 void HogEngine::FrameEnd()
 {
@@ -52,10 +55,9 @@ void HogEngine::Update()
 {
 	while (!shouldQuit)
 	{
-		renderManager->ClearBackground(1,1,1,1);
 		inputManager->Update();
 		stateManager->Update();
-		renderManager->Update();
+		renderManager->ClearBackground(1, 1, 1, 1);
 		renderManager->Draw();
 		renderManager->SwapWindow();
 
