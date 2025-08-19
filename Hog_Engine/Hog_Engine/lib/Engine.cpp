@@ -19,6 +19,11 @@ void HERun(const char* title, int width, int height, const int targetFPS, int vS
 	Engine.renderManager->LoadTexture("Assets/yujin.png");
 }
 
+void HEInit()
+{
+
+}
+
 void HEUpdate()
 {
 	Engine.Update();
@@ -65,7 +70,6 @@ void HogEngine::Update()
 			shouldQuit = true;
 		FrameEnd();
 	}
-	Destroy();
 }
 
 void HogEngine::Destroy()
@@ -84,6 +88,12 @@ void HogEngine::Destroy()
 void HESetNextGameState(std::unique_ptr<GameState> TargetState)
 {
 	Engine.stateManager->SetNextState(std::move(TargetState));
+}
+
+void HEExit()
+{
+
+	Engine.Destroy();
 }
 
 void HESetWindowTitle(const char* title)

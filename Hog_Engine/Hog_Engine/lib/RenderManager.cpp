@@ -182,7 +182,7 @@ void RenderManager::LoadTexture(const char* path)
 	GLint textureLocation = glGetUniformLocation(shaderProgram, "uTexture");
 	glUniform1i(textureLocation, 0);
 
-	glBindTextureUnit(0+, texture);
+	glBindTextureUnit(0, texture);
 	glGenerateTextureMipmap(texture);
 }
 
